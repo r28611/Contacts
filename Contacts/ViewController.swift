@@ -15,6 +15,15 @@ class ViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var toolbar: UIToolbar = {
+        let bar = UIToolbar()
+        bar.setItems([UIBarButtonItem.flexibleSpace(),
+                      .init(title: "Создать контакт", style: .plain, target: self, action: nil),
+                     ], animated: true)
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        return bar
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUi()
@@ -26,10 +35,15 @@ class ViewController: UIViewController {
     
     private func setupUi() {
         view.addSubview(tableView)
+        view.addSubview(toolbar)
         let margins = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
+            toolbar.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            toolbar.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            toolbar.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+            
             tableView.topAnchor.constraint(equalTo: margins.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: margins.trailingAnchor)
         ])
