@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setupUi()
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         loadContacts()
     }
@@ -65,12 +66,23 @@ extension ViewController: UITableViewDataSource {
     }
     private func loadContacts() {
         contacts.append(
-    Contact(title: "Саня Техосмотр", phone: "+799912312323"))
+            Contact(title: "Саня Техосмотр", phone: "+799912312323"))
         contacts.append(
-    Contact(title: "Владимир Анатольевич", phone: "+781213342321"))
+            Contact(title: "Владимир Анатольевич", phone: "+781213342321"))
         contacts.append(
-    Contact(title: "Сильвестр", phone: "+7000911112"))
+            Contact(title: "Сильвестр", phone: "+7000911112"))
         contacts.sort{ $0.title < $1.title }
     }
+    
+}
 
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let actionDelete = UIContextualAction(style: .destructive, title: "Удалить") { _,_,_ in
+            self.contacts.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+        let actions = UISwipeActionsConfiguration(actions: [actionDelete])
+        return actions
+    }
 }
